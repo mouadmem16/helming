@@ -6,12 +6,12 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: webk9s
+      app: webk9s-application
   replicas: 1 
   template:
     metadata:
       labels:
-        app: webk9s
+        app: webk9s-application
     spec:
       serviceAccountName: sa-k9s
       containers:
@@ -20,15 +20,8 @@ spec:
         ports:
         - containerPort: 80
           protocol: TCP
-          name: webk9s
-        livenessProbe:
-          httpGet:
-            path: /
-            port: http
-        readinessProbe:
-          httpGet:
-            path: /
-            port: http
+          name: http
+    {{- with .Values.nodeSelector }}
     nodeSelector:
       {{- toYaml . | nindent 8 }}
     {{- end }}
